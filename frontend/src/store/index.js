@@ -4,7 +4,7 @@ import {saveToken} from '../saveToken'
 const authSlice=createSlice({
     name:'auth',
     initialState: {
-        isLoggedIn:getToken() ? true : false,
+        isLoggedIn: false,
         name:null,
         email:null
     },
