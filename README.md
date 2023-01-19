@@ -1,5 +1,5 @@
 # intelory_project_interview
-Clone the repository
+Clone the repository \n
 Install packages for frontend and backend by navigating to those folders respectively and typing yarn add
 Go to backend folder type these commands: 
 yarn dev
