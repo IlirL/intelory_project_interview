@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -20,30 +20,47 @@ const defaultMaterialTheme = createTheme({
     }
    
   })
- const [columns, setColumns] =React.useState([]);
- const [page, setPage] = React.useState(0);
- const [pageSize, setPageSize] = React.useState(10);
- const [companies, setCompanies] = React.useState([]);
- const [totalCompanies, setTotalCompanies] = React.useState(0);
-const [loading, setLoading] = React.useState(false);
- React.useEffect(() => {
-    if(isLoggedIn)
+  const [page, setPage] = React.useState(6);
+  const [pageSize, setPageSize] = React.useState(10);
+  const [companies, setCompanies] = React.useState([]);
+  const [totalCompanies, setTotalCompanies] = React.useState(0);
+ const [loading, setLoading] = React.useState(false);
+const columns = [
     {
-        axios({
-            method:'GET',
-            url:`${process.env.REACT_APP_BASE_URL}/columns`,
-            headers:{
-                'Authorization':`Bearer ${token}`
-            }
-        }).then(response => {
-            console.log("response 2", response)
-            setColumns(response.data);
-            // setCompanies(response.data.map(singleData => singleData.name))
-        }).catch(e => {
-            alert("Unsuccessful fetching columns");
-        });
-    }
- }, [isLoggedIn])
+      title:'Name', field:"name"
+    },
+    {
+      title:'Email', field:'email'
+    },
+    {
+      title:'EMBS', field:'embs'
+    },
+    {
+      title:'EDB', field:'edb'
+    },
+    {
+      title:'Activity', field:'activity'
+    },
+    {
+      title:'Legal Form', field:'legal_form'
+    },
+    {
+      title:'Size', field:'size'
+    },
+    {
+      title:'Active', field:'active'
+    },
+    {
+      title:'Address', field:'address'
+    },
+    {
+      title:'Bank', field:'bank'
+    },
+    {
+      title:'Bank Account Number', field:'bank_account_number'
+    },
+  ]
+ 
 
  React.useEffect(() => {
     if(isLoggedIn)
@@ -58,9 +75,10 @@ const [loading, setLoading] = React.useState(false);
             }
         }).then(response => {
             console.log("response 2", response)
-            setTotalCompanies(response.data.count);
-            setCompanies(response.data.companies);
-            setLoading(false);
+            // setColumns((c) => [...c])
+            setTotalCompanies(() => response.data.count);
+            setCompanies(() => response.data.companies);
+            setLoading(() => false);
 
             // setCompanies(response.data.map(singleData => singleData.name))
         }).catch(e => {
@@ -72,12 +90,12 @@ const [loading, setLoading] = React.useState(false);
 <ThemeProvider theme={defaultMaterialTheme}>
       <MaterialTable 
         // style = {{maxWidth:"90%", overflow:'hidden'}}
-        data={companies ? companies : []}
-        columns = {columns ? columns : []}
+        data={companies}
+        columns = {columns}
         page = {page}
         isLoading = {loading}
-        onChangePage = {(e) => setPage(e)}
-        onChangeRowsPerPage = {(e) => setPageSize(e)}
+        onChangePage = {(e) => setPage(() => {console.log(e); return e})}
+        onChangeRowsPerPage = {(e) => setPageSize(() => {console.log(e); return e})}
         totalCount = {totalCompanies}
         options = {{
             paging:true,
