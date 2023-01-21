@@ -1,25 +1,10 @@
-import e, { Router, Request, Response, response } from 'express';
-import db from '../../models';
-import * as controllers from '../../controllers/users.controllers';
-import authenticationMiddleware from '../../middleware/authentication.middleware';
-import { IntegerDataType } from 'sequelize';
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import db from '../models';
+dotenv.config();
 
-const routes = Router();
-// api/users
-
-// authentication
-routes.route('/authenticate').post(controllers.authenticate);
-routes.route("/register").post(async (req:Request,res:Response ) => {
-  try {
-    const {email, password, name} = req.body;
-  console.log(email, password, name)
-  const responseFromDB = await db.Users.create(req.body);
-  res.status(200).json("Successful")
-  } catch (error) {
-    res.status(400).json("Not successful");
-  }
-})
-routes.route('/companies').get(authenticationMiddleware,async (req:Request, res:Response) => {
+export const companies = async (req:Request, res:Response) => {
     let responseFromDB : any = null;
       const limit : any = req.query.limit || 0;
       const page : any= req.query.page || 0;
@@ -44,9 +29,9 @@ routes.route('/companies').get(authenticationMiddleware,async (req:Request, res:
       count:countRows,
       companies:responseFromDB
     });
-} )
+} 
 
-routes.route('/columns').get(authenticationMiddleware, async (req:Request, res:Response) => {
+export const columns = async (req:Request, res:Response) => {
     const columns = [
       {
         title:'Name', field:"name"
@@ -84,6 +69,4 @@ routes.route('/columns').get(authenticationMiddleware, async (req:Request, res:R
     ]
 
     res.send(columns)
-})
-
-export default routes;
+}

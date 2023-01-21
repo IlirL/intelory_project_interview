@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "seedUp": "npx sequelize-cli db:seed --seed 20230117193314-companies.js",
-    "seedUpDetails":"npx sequelize-cli db:seed --seed 20230119125224-companiesDetails.js",
+    "seedUpDetails": "npx sequelize-cli db:seed --seed 20230119125224-companiesDetails.js",
     "seedDown": "npx sequelize-cli db:seed:undo --seed 20230117193314-companies.js",
     "dev": "tsnd --respawn index.ts",
     "migrate": "npx sequelize-cli db:migrate",
